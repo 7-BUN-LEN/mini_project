@@ -9,6 +9,6 @@ public interface ProductService {
     boolean insert(Product products) throws SQLException;
     boolean update(Product products) throws SQLException;
     boolean delete(Product products) throws SQLException;
-    boolean search(Product products) throws SQLException;
+    boolean search(String name) throws SQLException;
     boolean view (String views) throws SQLException;
 }

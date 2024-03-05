@@ -12,7 +12,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ProductImplement implements ProductService {
-
     @Override
     public boolean insert(Product products)  {
         //connection
@@ -43,7 +42,7 @@ public class ProductImplement implements ProductService {
     }
 
     @Override
-    public boolean search(Product products) {
+    public boolean search(String name) {
         return false;
     }
 
