@@ -31,7 +31,6 @@ public class ProductImplement implements ProductService {
         }catch (SQLException ex){
         return false;
         }
-
     }
     @Override
     public boolean update(Product products) {
