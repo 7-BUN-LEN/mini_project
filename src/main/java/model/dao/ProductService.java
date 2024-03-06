@@ -11,4 +11,6 @@ public interface ProductService {
     boolean delete(Product products) throws SQLException;
     boolean search(Product products) throws SQLException;
     boolean view (String views) throws SQLException;
+    int count() throws SQLException;
+    boolean dupplicate(Product products) throws SQLException;
 }
