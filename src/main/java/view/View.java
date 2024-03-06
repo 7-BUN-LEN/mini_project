@@ -20,7 +20,7 @@ public class View {
     //    ResultSet resultSet , int start, int limit
     public static void display(ResultSet resultSet, int start, int limit) throws SQLException
     {
-        CellStyle center = new CellStyle(CellStyle.HorizontalAlign.center);
+        CellStyle center = new CellStyle(CellStyle.HorizontalAlign.CENTER);
         Table t = new Table(5, BorderStyle.UNICODE_BOX_DOUBLE_BORDER, ShownBorders.ALL);
 
         t.setColumnWidth(0, 15, 30);
@@ -43,8 +43,8 @@ public class View {
             start++;
         }
         System.out.println(t.render());
-        System.out.println("*) Display | W)rite  | U)pdate | D)elete  | F)irst | P)revious  | N)ext | L)ast \n" +
-                "   S)earch | G)oto  | Se)trow || Sa)ve  | Ba)ck up | Re)store | H)elp | E)xit");
+        System.out.println("\n*) Display | W)rite  | U)pdate | D)elete  | F)irst | P)revious  | N)ext | L)ast \n\n" +
+                "   S)earch | G)oto  | Se)trow  |  Sa)ve  | Ba)ck up | Re)store | H)elp | E)xit\n");
     }
 }
 
