@@ -1,11 +1,8 @@
 package connectDB;
 
-import model.Product;
 import util.GetProperties;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Properties;
 
 public class PostgresConnection {
     private static  final  String USERNAME = GetProperties.read().getProperty("user");
