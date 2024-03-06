@@ -1,5 +1,6 @@
 package view;
 
+import model.dao.ProductImplement;
 import org.nocrala.tools.texttablefmt.BorderStyle;
 import org.nocrala.tools.texttablefmt.CellStyle;
 import org.nocrala.tools.texttablefmt.ShownBorders;
@@ -19,7 +20,7 @@ public class View {
     //    ResultSet resultSet , int start, int limit
     public static void display(ResultSet resultSet, int start, int limit) throws SQLException
     {
-        CellStyle numberStyle = new CellStyle(CellStyle.HorizontalAlign.center);
+        CellStyle center = new CellStyle(CellStyle.HorizontalAlign.center);
         Table t = new Table(5, BorderStyle.UNICODE_BOX_DOUBLE_BORDER, ShownBorders.ALL);
 
         t.setColumnWidth(0, 15, 30);
@@ -28,28 +29,22 @@ public class View {
         t.setColumnWidth(3, 25, 30);
         t.setColumnWidth(4, 25, 30);
 
-        t.addCell(ANSI_BLUE + "ID" + ANSI_RESET, numberStyle);
-        t.addCell(ANSI_GREEN + "Product Name" + ANSI_RESET, numberStyle);
-        t.addCell(ANSI_YELLOW + "Unit Price" + ANSI_RESET, numberStyle);
-        t.addCell(ANSI_RED + "QTY" + ANSI_RESET, numberStyle);
-        t.addCell(ANSI_RED + "Imported Date" + ANSI_RESET, numberStyle);
-
-        start = 0;
-        limit = 5;
-        while (resultSet.next() && start< limit) {
-            resultSet.next();
-            resultSet.getRowId("id");
-            resultSet.getString("name");
-            resultSet.getDouble("unitPrice");
-            resultSet.getInt("qty");
-            resultSet.getDate("imported date");
+        t.addCell(ANSI_BLUE + "ID" + ANSI_RESET, center);
+        t.addCell(ANSI_GREEN + "Product Name" + ANSI_RESET, center);
+        t.addCell(ANSI_YELLOW + "Unit Price" + ANSI_RESET, center);
+        t.addCell(ANSI_RED + "QTY" + ANSI_RESET, center);
+        t.addCell(ANSI_RED + "Imported Date" + ANSI_RESET, center);
+        while (resultSet.next()) {
+            t.addCell(""+resultSet.getInt("id"),center);
+            t.addCell(resultSet.getString("name"),center);
+            t.addCell(""+resultSet.getDouble("unit_price"),center);
+            t.addCell(""+resultSet.getInt("qty"),center);
+            t.addCell(""+resultSet.getDate("imported_date"),center);
             start++;
         }
-
         System.out.println(t.render());
-
+        System.out.println("*) Display | W)rite  | U)pdate | D)elete  | F)irst | P)revious  | N)ext | L)ast \n" +
+                "   S)earch | G)oto  | Se)trow || Sa)ve  | Ba)ck up | Re)store | H)elp | E)xit");
     }
-
-
 }
 

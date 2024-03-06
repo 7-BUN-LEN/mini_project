@@ -81,7 +81,7 @@ public class ProductImplement implements ProductService {
         }
     }
     @Override
-    public boolean dupplicate(Product products) throws SQLException {
+    public boolean duplicate(Product products) throws SQLException {
         String duplicate= "SELECT name FROM product_tb WHERE LOWER(name) = 'coca' AND id != 2";
         if(duplicate != null){
             return true;
@@ -89,6 +89,21 @@ public class ProductImplement implements ProductService {
             return false;
         }
     }
+
+    @Override
+    public ResultSet selectAllData() {
+        ResultSet rs = null;
+        String query= "SELECT * FROM product_tb";
+        try{
+            Connection cn = PostgresConnection.connection();
+            Statement st = cn.createStatement();
+            rs =st.executeQuery(query);
+        }catch (SQLException ex){
+            System.out.println(ex.getMessage());;
+        }
+        return rs;
+    }
+
 //    @Override
 //    public int auto_id() throws SQLException {
 //        String view= "SELECT id FROM product_tb ORDER BY id DESC LIMIT 1";
