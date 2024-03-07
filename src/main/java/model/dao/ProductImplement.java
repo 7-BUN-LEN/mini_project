@@ -37,35 +37,48 @@ public class ProductImplement implements ProductService {
         }
     }
     @Override
-    public boolean delete(Product products) {
-        String delete= "DELETE FROM product_tb WHERE id = "+products.getId()+"";
+    public ResultSet delete(String del_id) {
+        String delete= "DELETE FROM product_tb WHERE id = "+del_id+"";
         try(Connection cn = PostgresConnection.connection()){
             Statement st = cn.createStatement();
-            st.execute(delete);
-            return true;
+            ResultSet rs = st.executeQuery(delete);
+            return rs;
         }catch (SQLException ex){
-            return false;
+            System.out.println(ex.getMessage());
+            return null;
         }
     }
     @Override
-    public boolean search(Product products) {
-        String search= "SELECT * FROM product_tb WHERE name LIKE '%s%'";
+    public ResultSet selectAll(int limite,int ind) throws SQLException {
+        String select= "SELECT * FROM product_tb LIMIT "+limite+" offset "+ind+" ";
         try(Connection cn = PostgresConnection.connection()){
             Statement st = cn.createStatement();
-            st.execute(search);
-            return true;
+            ResultSet rs = st.executeQuery(select);
+            return rs;
         }catch (SQLException ex){
-            return false;
+            return null;
+        }
+    }
+    @Override
+    public ResultSet search(String txt) {
+        String search= "SELECT * FROM product_tb WHERE name ILIKE '%"+txt+"%'";
+        try(Connection cn = PostgresConnection.connection()){
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(search);
+            return rs;
+        }catch (SQLException ex){
+            return null;
         }
     }
     @Override
     public ResultSet view(String views) {
-        String view= "SELECT * FROM product_tb WHERE id = 2";
-        try(Connection cn = PostgresConnection.connection()){
+        String view = "SELECT * FROM product_tb WHERE id = " + views + " ";
+        try (Connection cn = PostgresConnection.connection()) {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(view);
             return rs;
-        }catch (SQLException ex){
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             return null;
         }
     }
@@ -74,24 +87,31 @@ public class ProductImplement implements ProductService {
         String count = "SELECT COUNT(*) FROM product_tb";
         try(Connection cn = PostgresConnection.connection()){
             Statement st = cn.createStatement();
-            st.execute(count);
-            return 1;
+            ResultSet count_data = st.executeQuery(count);
+            if (count_data.next()) {
+                int rowCount = count_data.getInt(1);
+                return rowCount;
+            }
         }catch (SQLException ex) {
-            return 1;
+            System.out.println(ex.getMessage());
         }
+        return 0;
     }
     @Override
-    public boolean dupplicate(Product products) throws SQLException {
-        String duplicate= "SELECT name FROM product_tb WHERE LOWER(name) = 'coca' AND id != 2";
-        if(duplicate != null){
-            return true;
-        }else {
-            return false;
+    public boolean duplicate(String txt){
+        String duplicate= "SELECT name FROM product_tb WHERE LOWER(name) = '"+txt+"'";
+        try(Connection cn = PostgresConnection.connection()){
+            Statement st = cn.createStatement();
+            ResultSet dupli_data = st.executeQuery(duplicate);
+            boolean rs = dupli_data.next();
+            if (rs){
+                return true;
+            }else {
+                return false;
+            }
+        }catch (SQLException ex) {
+            System.out.println(ex.getMessage());
         }
+        return false;
     }
-//    @Override
-//    public int auto_id() throws SQLException {
-//        String view= "SELECT id FROM product_tb ORDER BY id DESC LIMIT 1";
-//        return 1;
-//    }
 }

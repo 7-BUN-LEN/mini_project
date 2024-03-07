@@ -11,12 +11,12 @@ public class Product {
     private Integer qty;
     private LocalDate importedDate;
 
-    public Product(Integer id, String name, Double unitPrice, Integer qty, LocalDate importedDate) {
-        this.id = id;
+    public Product(String name, Double unitPrice, Integer qty) {
+//        this.id = id;
         this.name = name;
         this.unitPrice = unitPrice;
         this.qty = qty;
-        this.importedDate = importedDate;
+//        this.importedDate = importedDate;
     }
 
     @Override
