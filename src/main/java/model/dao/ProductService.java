@@ -7,8 +7,8 @@ import java.sql.SQLException;
 
 public interface ProductService {
     boolean insert(Product products) throws SQLException;
-    boolean update(Product products) throws SQLException;
-    ResultSet delete(String del_id) throws SQLException;
+    boolean update(int id,Product products) throws SQLException;
+    boolean delete(String del_id) throws SQLException;
     ResultSet selectAll(int limite,int ind) throws SQLException;
     ResultSet search(String txt) throws SQLException;
     ResultSet view (String views) throws SQLException;

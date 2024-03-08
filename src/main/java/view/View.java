@@ -23,7 +23,7 @@ public class View {
     static Validate validate = new Validate();
     static CellStyle numberStyle = new CellStyle(CellStyle.HorizontalAlign.center);
     static ProductImplement model = new ProductImplement();
-    public  void display(ResultSet resultSet, int limit,int count,int cur_page) throws SQLException{
+    public  void display(ResultSet resultSet, int limit,int count,int cur_page){
         int current_page = cur_page;
         int item_per_page = limit;
         int totalItems = model.count();
@@ -40,16 +40,20 @@ public class View {
         t.addCell(ANSI_YELLOW + "Unit Price" + ANSI_RESET, numberStyle);
         t.addCell(ANSI_RED + "QTY" + ANSI_RESET, numberStyle);
         t.addCell(ANSI_RED + "Imported Date" + ANSI_RESET, numberStyle);
-        while (resultSet.next()) {
-            t.addCell(ANSI_BLUE + resultSet.getInt("id") + ANSI_RESET, numberStyle);
-            t.addCell(ANSI_GREEN + resultSet.getString("name") + ANSI_RESET, numberStyle);
-            t.addCell(ANSI_YELLOW + resultSet.getString("unit_price") + ANSI_RESET, numberStyle);
-            t.addCell(ANSI_RED + resultSet.getString("qty") + ANSI_RESET, numberStyle);
-            t.addCell(ANSI_RED + resultSet.getString("imported_date") + ANSI_RESET, numberStyle);
+        try {
+            while (resultSet.next()) {
+                t.addCell(ANSI_BLUE + resultSet.getInt("id") + ANSI_RESET, numberStyle);
+                t.addCell(ANSI_GREEN + resultSet.getString("name") + ANSI_RESET, numberStyle);
+                t.addCell(ANSI_YELLOW + resultSet.getString("unit_price") + ANSI_RESET, numberStyle);
+                t.addCell(ANSI_RED + resultSet.getString("qty") + ANSI_RESET, numberStyle);
+                t.addCell(ANSI_RED + resultSet.getString("imported_date") + ANSI_RESET, numberStyle);
+            }
+            t.addCell(ANSI_RED + "Page "+current_page+" : "+totalPages + ANSI_RESET, numberStyle,2);
+            t.addCell(ANSI_RED + "Total Record "+count+" " + ANSI_RESET, numberStyle,3);
+            System.out.println(t.render());
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
         }
-        t.addCell(ANSI_RED + "Page "+current_page+" : "+totalPages + ANSI_RESET, numberStyle,2);
-        t.addCell(ANSI_RED + "Total Record "+count+" " + ANSI_RESET, numberStyle,3);
-        System.out.println(t.render());
     }
     public Product write(){
         System.out.print("Enter name : ");
@@ -84,16 +88,20 @@ public class View {
             t.addCell(ANSI_RED + "QTY : "+rs.getString("qty")+" " + ANSI_RESET);
             t.addCell(ANSI_RED + "Imported Date : "+rs.getString("imported_date")+" " + ANSI_RESET);
             System.out.println(t.render());
-            System.out.print("Press enter for continues....");
-            scanner.nextLine();
-            scanner.nextLine();
         }catch (SQLException e){
-            System.out.println(e.getMessage());
+            System.out.println("Product Not Found !!!");
+            return;
         }
     }
-    public void update(){
-        System.out.println("Enter ID for update : ");
-        String id = scanner.next();
+    public Product update(){
+        System.out.print("Updat product name to : ");
+        String name = scanner.nextLine();
+        System.out.print("Updat product unit price to : ");
+        String unit_price = scanner.nextLine();
+        System.out.print("Updat product qty to : ");
+        String qty = scanner.nextLine();
+        Product product = new Product(name,Double.parseDouble(unit_price),Integer.parseInt(qty));
+        return product;
     }
     public void search(ResultSet rs){
         try {

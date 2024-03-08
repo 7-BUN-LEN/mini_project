@@ -26,8 +26,8 @@ public class ProductImplement implements ProductService {
         }
     }
     @Override
-    public boolean update(Product products) {
-        String update= "UPDATE product_tb SET name = Sting WHERE id = 6";
+    public boolean update(int id,Product products) {
+        String update= "UPDATE product_tb SET name = '"+products.getName()+"',unit_price="+products.getUnitPrice()+",qty="+products.getQty()+" WHERE id = "+id+" ";
         try(Connection cn = PostgresConnection.connection()){
             Statement st = cn.createStatement();
             st.execute(update);
@@ -37,20 +37,20 @@ public class ProductImplement implements ProductService {
         }
     }
     @Override
-    public ResultSet delete(String del_id) {
-        String delete= "DELETE FROM product_tb WHERE id = "+del_id+"";
+    public boolean delete(String del_id) {
+        String delete= "DELETE FROM product_tb WHERE id = "+del_id+" ";
         try(Connection cn = PostgresConnection.connection()){
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(delete);
-            return rs;
+            return true;
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
-            return null;
+            return false;
         }
     }
     @Override
-    public ResultSet selectAll(int limite,int ind) throws SQLException {
-        String select= "SELECT * FROM product_tb LIMIT "+limite+" offset "+ind+" ";
+    public ResultSet selectAll(int limite,int ind){
+        String select= "SELECT * FROM product_tb ORDER BY id ASC LIMIT "+limite+" offset "+ind+" ";
         try(Connection cn = PostgresConnection.connection()){
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(select);
@@ -99,7 +99,7 @@ public class ProductImplement implements ProductService {
     }
     @Override
     public boolean duplicate(String txt){
-        String duplicate= "SELECT name FROM product_tb WHERE LOWER(name) = '"+txt+"'";
+        String duplicate= "SELECT name FROM product_tb WHERE LOWER(name) = '"+txt+"' AND id != 0";
         try(Connection cn = PostgresConnection.connection()){
             Statement st = cn.createStatement();
             ResultSet dupli_data = st.executeQuery(duplicate);
